@@ -3,13 +3,20 @@
 
     class CreateFilmCommand
     {
+        private $id;
         private $title;
         private $descripton;
 
-        public function __consruct(string $title, string $descripton)
+        public function __consruct(int $id, string $title, string $descripton)
         {
-            $this -> title = $title;
-            $this -> description = $descripton;
+            $this -> id             = $id;
+            $this -> title          = $title;
+            $this -> description    = $descripton;
+        }
+
+        public function id():int
+        {
+            return $this -> title;
         }
 
         public function title():string
