@@ -2,14 +2,12 @@
     namespace FilmApi\Domain;
 
     use FilmApi\Domain\Exception\InvalidActorNameException;
-    use FilmApi\Domain\Exception\FilmAlreadyExistsException;
 
     class Actor
     {
         private const MAX_NAME_LENGTH = 50;
         private $id;
         private $name;
-        private $isCreated;
 
         private function __construct(string $name)
         {
@@ -39,5 +37,13 @@
         public function name():string
         {
             return $this->name;
+        }
+
+        public function toArray():array
+        {
+            return [
+                'id'    => $this ->id(),
+                'name'  => $this ->name()
+            ];
         }
     }
