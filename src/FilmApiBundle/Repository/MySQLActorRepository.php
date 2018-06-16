@@ -10,7 +10,7 @@
 
     class MySQLActorRepository implements ActorRepository
     {
-
+        
     }
 
     
