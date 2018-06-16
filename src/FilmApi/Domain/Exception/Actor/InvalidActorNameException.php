@@ -1,5 +1,7 @@
 <?php
-namespace FilmApi\Domain\Exception;
+namespace FilmApi\Domain\Exception\Actor;
+use FilmApi\Domain\Exception\InvalidArgumentException;
+
 class InvalidActorNameException extends InvalidArgumentException
 {
     public $nameLength;

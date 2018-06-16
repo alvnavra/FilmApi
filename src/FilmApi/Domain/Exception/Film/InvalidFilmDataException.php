@@ -1,5 +1,6 @@
 <?php
-namespace FilmApi\Domain\Exception;
+namespace FilmApi\Domain\Exception\Film;
+use FilmApi\Domain\Exception\InvalidArgumentException;
 class InvalidFilmDataException extends InvalidArgumentException
 {
     public $fieldLength;

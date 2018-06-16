@@ -1,6 +1,7 @@
 <?php
-    namespace FilmApi\Domain\Exception;
+    namespace FilmApi\Domain\Exception\Film;
     use Throwable;
+    use FilmApi\Domain\Exception\BadOperationException;
     class FilmAlreadyExistsException extends BadOperationException
     {
         public $title;
