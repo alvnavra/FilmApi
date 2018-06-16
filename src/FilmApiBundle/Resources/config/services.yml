@@ -1,0 +1,17 @@
+parameters:
+
+services:
+  FilmApi\Repository\Actor:
+    class: FilmApiBundle\Repository\MySQLActorRepository
+    public: false
+    arguments:
+      - "@doctrine.orm.default_entity_manager"
+
+  FilmApi\Decorator\Actor:
+    class: FilmApiBundle\Decorators\ActorDecorator
+    decorates: FilmApi\Repository\Actor
+    public: false
+    arguments: ['@FilmApi\Decorator\Actor.inner']
+
+
+  

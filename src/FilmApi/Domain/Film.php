@@ -2,25 +2,28 @@
     namespace FilmApi\Domain;
 
     use FilmApi\Domain\Exception\InvalidFilmDataException;
+    use FilmApi\Domain\Actor;
 
-    class Actor
+    class Film
     {
         private const MAX_TITLE_LENGTH = 100; // Solo se controla la longitud del título, pk la descripción es de tipo texto. No tiene límites.
         private $id;
         private $title;
         private $description;
+        private $actor;
 
-        private function __construct(string $title, string $description)
+        private function __construct(string $title, string $description, Actor $actor)
         {
             $this -> validateTitle($title);
             $this -> validateDescription($description);
             $this -> title = filter_var($title,FILTER_SANITIZE_STRING);
             $this -> description = filter_var($description,FILTER_SANITIZE_STRING);
+            $this -> actor = $actor;
         }
 
-        public static function create(string $title, string $description):self
+        public static function create(string $title, string $description, int $idActor):self
         {
-            return new self($title, $description);
+            return new self($title, $description, $idActor);
         }
 
         private function validateTitle(string $title):void
@@ -54,12 +57,18 @@
             return $this->description;
         }
 
+        public function actor():Actor
+        {
+            return $this->actor;
+        }
+
         public function toArray():array
         {
             return [
                 'id'           => $this ->id(),
                 'title'        => $this ->title(),
-                'description'  => $this ->description()
+                'description'  => $this ->description(),
+                'actor'        => $this ->actor()
             ];
         }
     }

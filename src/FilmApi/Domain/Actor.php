@@ -5,7 +5,7 @@
 
     class Actor
     {
-        private const MAX_NAME_LENGTH = 50;
+        private const MAX_NAME_LENGTH = 100;
         private $id;
         private $name;
 

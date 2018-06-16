@@ -2,6 +2,7 @@
     namespace FilmApi\Domain\Repository;
 
     use FilmApi\Domain\Film;
+    use FilmApi\Domain\Actor;
 
     interface FilmRepository
     {
@@ -11,4 +12,5 @@
         public function findFilmByIdOrError(int $id):Film;
         public function findFilmByTitleOrError(string $title):Film;
         public function findAllFilms():array;
+        public function findFilmsByActor(Actor $actor):Array;
     }

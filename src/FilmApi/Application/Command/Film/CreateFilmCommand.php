@@ -5,11 +5,13 @@
     {
         private $title;
         private $descripton;
+        private $idActor;
 
-        public function __consruct(int $id, string $title, string $descripton)
+        public function __consruct(int $id, string $title, string $descripton, int $idActor)
         {
             $this -> title          = $title;
             $this -> description    = $descripton;
+            $this -> idActor        = $idActor;
         }
         public function title():string
         {
@@ -19,5 +21,10 @@
         public function description():string
         {
             return $this -> description;
+        }
+
+        public function idActor():int
+        {
+            return $this -> idActor;
         }
     }

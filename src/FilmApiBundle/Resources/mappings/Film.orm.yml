@@ -1,5 +1,6 @@
-FilmApiBundle\Domain\Film:
+FilmApi\Domain\Film:
   type: entity
+  table: films
   id:
     id:
       type: integer
@@ -12,7 +13,7 @@ FilmApiBundle\Domain\Film:
       type: text
   manyToOne:
     actor:
-      targetEntity: FilmApiBundle\Domain\Actor
+      targetEntity: FilmApi\Domain\Actor
       inversedBy: films
       joinColumn:
         nullable: false

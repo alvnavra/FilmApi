@@ -40,7 +40,7 @@ twig:
 doctrine:
     dbal:
         driver: pdo_mysql
-        host: 'localhost%'
+        host: 'localhost'
         port: '3306'
         dbname: 'Films'
         user: 'admin_films'
@@ -63,6 +63,13 @@ doctrine:
                 is_bundle:  true
                 dir:        "Resources/mappings"
                 prefix:     FilmApi\Domain
+
+doctrine_migrations:
+    dir_name: "%kernel.root_dir%/DoctrineMigrations"
+    namespace: Application\Migrations
+    table_name: migration_versions
+    name: Application Migrations
+    organize_migrations: false
 
 # Swiftmailer Configuration
 swiftmailer:

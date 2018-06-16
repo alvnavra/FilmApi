@@ -13,15 +13,16 @@
             $this -> filmRepository = $filmRepository;
         }
 
-        public function execute(FindFilmsCommand $command)
+        public function execute(FindFilmsCommand $command, int $id,  string $itlte, int $actorId)
         {
             if ($command -> allFilms()) return $this -> fillmRepository -> findAllFilms();
             else
             {
-                if ($command -> filmById()) return $this -> filmRepository -> findFilmByIdOrError();
+                if ($command -> filmById()) return $this -> filmRepository -> findFilmByIdOrError($id);
                 else
                 {
-                    if ($command -> FilmByTitle()) return $this -> filmRepository -> findFilmsByTitleOrError();
+                    if ($command -> FilmByTitle()) return $this -> filmRepository -> findFilmByTitleOrError($title);
+                    else if ($command -> FilmByActorId()) return $this -> filmRepository -> findFilmByActorId($actorId);
                 }
             }
         }

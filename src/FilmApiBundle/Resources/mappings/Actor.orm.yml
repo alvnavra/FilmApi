@@ -1,5 +1,6 @@
-FilmApiBundle\Actor:
-  type: entity
+FilmApi\Domain\Actor:
+  type  : entity
+  table : actors
   id:
     id:
       type: integer
