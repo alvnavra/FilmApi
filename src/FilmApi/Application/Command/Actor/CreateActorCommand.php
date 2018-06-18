@@ -1,13 +1,14 @@
 <?php
-    namespace FilmApi\Application\Comand\Actor;
+    namespace FilmApi\Application\Command\Actor;
 
     class CreateActorCommand
     {
         private $name;
 
-        public function __consruct(string $name)
+        public function __construct(string $name)
         {
             $this -> name = $name;
+            var_dump($name);
         }
 
         public function name():string

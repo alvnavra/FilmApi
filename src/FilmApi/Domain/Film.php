@@ -1,7 +1,7 @@
 <?php
     namespace FilmApi\Domain;
 
-    use FilmApi\Domain\Exception\InvalidFilmDataException;
+    use FilmApi\Domain\Exception\Film\InvalidFilmDataException;
     use FilmApi\Domain\Actor;
 
     class Film

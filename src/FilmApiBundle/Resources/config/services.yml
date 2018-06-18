@@ -1,17 +1,24 @@
 parameters:
 
 services:
-  FilmApi\Repository\Actor:
+  filmapi.repository.actor:
     class: FilmApiBundle\Repository\MySQLActorRepository
     public: false
     arguments:
       - "@doctrine.orm.default_entity_manager"
+      - "@cache.app"
 
-  FilmApi\Decorator\Actor:
+  filmapi.decorator.actor:
     class: FilmApiBundle\Decorators\ActorDecorator
-    decorates: FilmApi\Repository\Actor
+    decorates: filmapi.repository.actor
     public: false
-    arguments: ['@FilmApi\Decorator\Actor.inner']
+    arguments: ['@filmapi.decorator.actor.inner','@cache.app']
+
+  filmapi.command_handler.createActor:
+    class     : FilmApi\Application\CommandHandler\Actor\CreateActorHandler
+    public    : true
+    arguments :
+      - "@filmapi.decorator.actor"
 
 
   

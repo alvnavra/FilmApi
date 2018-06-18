@@ -12,5 +12,5 @@
         public function findFilmByIdOrError(int $id):Film;
         public function findFilmByTitleOrError(string $title):Film;
         public function findAllFilms():array;
-        public function findFilmsByActor(Actor $actor):Array;
+        public function findFilmsByActor(Actor $actor):array;
     }

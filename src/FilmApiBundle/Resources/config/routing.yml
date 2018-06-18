@@ -1,0 +1,4 @@
+create_actor:
+  path: /actors
+  defaults: { _controller: FilmApiBundle:Actor:createActor }
+  methods: [POST]
