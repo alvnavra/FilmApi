@@ -1,7 +1,7 @@
 <?php
 namespace FilmApi\Domain\Exception\Actor;
 use Throwable;
-use BadOperationException;
+use FilmApi\Domain\Exception\BadOperationException;
 class UnknownActorException extends BadOperationException
 {
     public $actorId;
@@ -15,4 +15,12 @@ class UnknownActorException extends BadOperationException
         $e->actorIdId = $id;
         return $e;
     }
+
+    public static function withActorName(string $name):self
+    {
+        $e = new static("Actor with name [$name] doesn't exist");
+        $e->actorName = $name;
+        return $e;
+    }
+
 }

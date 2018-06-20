@@ -20,5 +20,35 @@ services:
     arguments :
       - "@filmapi.decorator.actor"
 
+  filmapi.command_handler.findAllActors:
+    class     : FilmApi\Application\CommandHandler\Actor\FindAllActorsHandler
+    public    : true
+    arguments :
+      - "@filmapi.decorator.actor"
+
+  filmapi.command_handler.findActorByName:
+      class     : FilmApi\Application\CommandHandler\Actor\FindActorByNameHandler
+      public    : true
+      arguments :
+        - "@filmapi.decorator.actor"
+
+  filmapi.command_handler.findActorById:
+      class     : FilmApi\Application\CommandHandler\Actor\FindActorByIdHandler
+      public    : true
+      arguments :
+        - "@filmapi.decorator.actor"        
+
+  filmapi.command_handler.updateActor:
+      class     : FilmApi\Application\CommandHandler\Actor\UpdateActorHandler
+      public    : true
+      arguments :
+        - "@filmapi.decorator.actor"        
+
+  filmapi.command_handler.deleteActor:
+      class     : FilmApi\Application\CommandHandler\Actor\DeleteActorHandler
+      public    : true
+      arguments :
+        - "@filmapi.decorator.actor"        
+
 
   

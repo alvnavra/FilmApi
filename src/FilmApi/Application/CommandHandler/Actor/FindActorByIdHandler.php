@@ -11,7 +11,7 @@
             $this -> actorRepository = $actorRepository;
         }
 
-        public function execute(int $id)
+        public function handle(int $id)
         {
             return $this -> actorRepository -> findActorByIdOrError($id);
         }

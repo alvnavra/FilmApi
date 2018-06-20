@@ -2,3 +2,32 @@ create_actor:
   path: /actors
   defaults: { _controller: FilmApiBundle:Actor:createActor }
   methods: [POST]
+
+update_actor:
+  path: /actor
+  defaults: { _controller: FilmApiBundle:Actor:updateActor }
+  methods: [PUT]
+
+delete_actor:
+  path: /actor
+  defaults: { _controller: FilmApiBundle:Actor:deleteActor }
+  methods: [DELETE]
+
+find_all_actors:
+  path: /actors
+  defaults: { _controller: FilmApiBundle:Actor:findAllActors }
+  methods: [GET]
+
+find_actor_by_id:
+  path: /actor_id
+  defaults: { _controller: FilmApiBundle:Actor:findActorById }
+  methods: [GET]  
+  requirements:
+    name: \d+
+
+find_actor_by_name:
+  path: /actor
+  defaults: { _controller: FilmApiBundle:Actor:findActorByName }
+  methods: [GET]  
+  requirements:
+    name: \w+

@@ -11,7 +11,7 @@
             $this -> actorRepository = $actorRepository;
         }
 
-        public function execute()
+        public function handle()
         {
             return $this -> actorRepository -> findAllActors();            
         }

@@ -31,29 +31,66 @@
 
         public function update(Actor $actor):void
         {
-
+            $this -> save($actor);
         }
 
         public function delete(Actor $actor):void
         {
+            
+                $actorBorrar = $this -> findActorByNameOrError($actor->name());
+                $this -> em -> remove($actorBorrar);
+                $this -> em -> flush();            
 
         }
 
-        public function findActorByNameOrEerror(string $name):Actor
+        public function findActorByNameOrError(string $name):Actor
         {
-            $pepe = new Actor('pepe');
-            return $pepe;
+            $repository = $this -> em -> getRepository(Actor::class);
+            $actor = $repository -> findOneBy(['name' => $name]);
+            if ($actor == null)
+            {
+                throw UnknownActorException::withActorName($name);
+            }
+            else
+            {
+                return $actor;
+            }
         }
         public function findActorByIdOrError(int $id):Actor
         {
-            $pepe = new Actor('pepe');
-            return $pepe;
+            $repository = $this -> em -> getRepository(Actor::class);
+            $actor = $repository -> findOneBy(['id'=>$id]);
 
+            if ($actor == null)
+            {
+                throw UnknownActorException::withActorId($id);
+            }
+            else
+            {
+                
+                return $actor;
+            }
         }
+        
         public function findAllActors():array
         {
-            $pepe = new Actor('pepe');            
-            return [$pepe];
+            try
+            {
+                $repository = $this -> em -> getRepository(Actor::class);
+                $actors = $repository -> findAll();
+                $arrayOfActors = [];
+                foreach ($actors as $actor)
+                {
+                    $arrayOfActors[$actor->name()] = $actor->toArray();
+                }
+                return $arrayOfActors;
+            }
+            catch (Exception $e)
+            {
+                throw RepositoryException::withError($e);
+            }
+
+
         }
     }
 

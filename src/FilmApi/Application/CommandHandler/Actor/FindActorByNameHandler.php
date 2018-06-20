@@ -2,7 +2,7 @@
     namespace FilmApi\Application\CommandHandler\Actor;
     use FilmApi\Domain\Repository\ActorRepository;
 
-    Class FindActoryByNameHandler
+    Class FindActorByNameHandler
     {
         private $actorRepository;
 
@@ -11,7 +11,7 @@
             $this -> actorRepository = $actorRepository;
         }
 
-        public function execute(string $name)
+        public function handle(string $name)
         {
             return $this -> actorRepository -> findActorByNameOrError($name);
         }
