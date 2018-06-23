@@ -1,12 +1,7 @@
 create_actor:
-  path: /actors
+  path: /actor
   defaults: { _controller: FilmApiBundle:Actor:createActor }
   methods: [POST]
-
-update_actor:
-  path: /actor
-  defaults: { _controller: FilmApiBundle:Actor:updateActor }
-  methods: [PUT]
 
 delete_actor:
   path: /actor

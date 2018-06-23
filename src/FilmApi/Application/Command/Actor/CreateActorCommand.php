@@ -8,7 +8,6 @@
         public function __construct(string $name)
         {
             $this -> name = $name;
-            var_dump($name);
         }
 
         public function name():string

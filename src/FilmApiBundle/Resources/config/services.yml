@@ -12,7 +12,7 @@ services:
     class: FilmApiBundle\Decorators\ActorDecorator
     decorates: filmapi.repository.actor
     public: false
-    arguments: ['@filmapi.decorator.actor.inner','@cache.app']
+    arguments: ['@filmapi.decorator.actor.inner']
 
   filmapi.command_handler.createActor:
     class     : FilmApi\Application\CommandHandler\Actor\CreateActorHandler
@@ -38,17 +38,32 @@ services:
       arguments :
         - "@filmapi.decorator.actor"        
 
-  filmapi.command_handler.updateActor:
-      class     : FilmApi\Application\CommandHandler\Actor\UpdateActorHandler
-      public    : true
-      arguments :
-        - "@filmapi.decorator.actor"        
-
   filmapi.command_handler.deleteActor:
       class     : FilmApi\Application\CommandHandler\Actor\DeleteActorHandler
       public    : true
       arguments :
-        - "@filmapi.decorator.actor"        
+        - "@filmapi.decorator.actor"     
 
+  filmapi.listener.actor_created:
+      class     : FilmApiBundle\EventListener\ActorListener
+      arguments : ['@cache.app']
+      tags      : 
+        - {name : kernel.event_listener, event: actor.created}       
 
-  
+  filmapi.listener.actor_removed:
+      class     : FilmApiBundle\EventListener\ActorListener
+      arguments : ['@cache.app']
+      tags      : 
+        - {name : kernel.event_listener, event: actor.removed}               
+
+  filmapi.listener.find_actor_by_name:
+      class     : FilmApiBundle\EventListener\ActorListener
+      arguments : ['@cache.app']
+      tags      : 
+        - {name : kernel.event_listener, event: actor.find_by_name}                       
+
+  filmapi.listener.find_actor_by_id:
+      class     : FilmApiBundle\EventListener\ActorListener
+      arguments : ['@cache.app']
+      tags      : 
+        - {name : kernel.event_listener, event: actor.find_by_id}                       
