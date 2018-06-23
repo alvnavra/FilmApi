@@ -116,8 +116,7 @@
         
 
         public function findActorByIdAction(Request $request)
-        {
-           
+        {           
             try
             {
                 $jsonActorId = $request -> query -> get('id');
