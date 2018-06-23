@@ -1,0 +1,67 @@
+services:
+  filmapi.repository.actor:
+    class: FilmApiBundle\Repository\MySQLActorRepository
+    public: false
+    arguments:
+      - "@doctrine.orm.default_entity_manager"
+      - "@cache.app"
+
+  filmapi.decorator.actor:
+    class: FilmApiBundle\Decorators\ActorDecorator
+    decorates: filmapi.repository.actor
+    public: false
+    arguments: ['@filmapi.decorator.actor.inner']
+
+  filmapi.command_handler.createActor:
+    class     : FilmApi\Application\CommandHandler\Actor\CreateActorHandler
+    public    : true
+    arguments :
+      - "@filmapi.decorator.actor"
+
+  filmapi.command_handler.findAllActors:
+    class     : FilmApi\Application\CommandHandler\Actor\FindAllActorsHandler
+    public    : true
+    arguments :
+      - "@filmapi.decorator.actor"
+
+  filmapi.command_handler.findActorByName:
+      class     : FilmApi\Application\CommandHandler\Actor\FindActorByNameHandler
+      public    : true
+      arguments :
+        - "@filmapi.decorator.actor"
+
+  filmapi.command_handler.findActorById:
+      class     : FilmApi\Application\CommandHandler\Actor\FindActorByIdHandler
+      public    : true
+      arguments :
+        - "@filmapi.decorator.actor"        
+
+  filmapi.command_handler.deleteActor:
+      class     : FilmApi\Application\CommandHandler\Actor\DeleteActorHandler
+      public    : true
+      arguments :
+        - "@filmapi.decorator.actor"     
+
+  filmapi.listener.actor_created:
+      class     : FilmApiBundle\EventListener\ActorListener
+      arguments : ['@cache.app']
+      tags      : 
+        - {name : kernel.event_listener, event: actor.created}       
+
+  filmapi.listener.actor_removed:
+      class     : FilmApiBundle\EventListener\ActorListener
+      arguments : ['@cache.app']
+      tags      : 
+        - {name : kernel.event_listener, event: actor.removed}               
+
+  filmapi.listener.find_actor_by_name:
+      class     : FilmApiBundle\EventListener\ActorListener
+      arguments : ['@cache.app']
+      tags      : 
+        - {name : kernel.event_listener, event: actor.find_by_name}                       
+
+  filmapi.listener.find_actor_by_id:
+      class     : FilmApiBundle\EventListener\ActorListener
+      arguments : ['@cache.app']
+      tags      : 
+        - {name : kernel.event_listener, event: actor.find_by_id}                       

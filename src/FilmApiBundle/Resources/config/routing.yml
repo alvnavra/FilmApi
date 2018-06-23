@@ -26,3 +26,7 @@ find_actor_by_name:
   methods: [GET]  
   requirements:
     name: \w+
+
+list_actor_by_id_web:
+  path    : /web/{_locale}/actor
+  defaults: {_controller: FilmApiBundle:Actor:findActorByIdWeb}

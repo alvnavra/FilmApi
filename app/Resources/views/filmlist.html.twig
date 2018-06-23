@@ -1,0 +1,6 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <p><b>{% trans %}Film Id{% endtrans %}:</b> {{ film.Id }} | <b>{% trans %}Film Name{% endtrans %}:</b> {{ film.name }}</br>
+    <b>{% trans %}Film Description{% endtrans %}:</b> {{ film.description }}</p>
+{% endblock %}

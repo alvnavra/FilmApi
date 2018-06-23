@@ -115,11 +115,11 @@
         }
         
 
-        public function findActorByIdAction(Request $request)
+        public function findActorByIdAction(Request $request, bool $web=false)
         {           
             try
             {
-                $jsonActorId = $request -> query -> get('id');
+                $jsonActorId = $request -> query -> get('id');                
                 $id = (int)$jsonActorId;
                 $actorIdEvent = new ActorIdEvent($id);
                 $dispatch = $this -> get('event_dispatcher') -> dispatch('actor.find_by_id', $actorIdEvent);
@@ -132,17 +132,25 @@
                     $dispatch = $this -> get('event_dispatcher') -> dispatch('actor.created', $actorEvent);    
                 }
     
-                return new JsonResponse(
-                ['success' => 'Actor Found', 'actor' => $actor->toArray()],
-                    200
-                );
+                if ($web == false)
+                {
+                    return new JsonResponse(
+                        ['success' => 'Actor Found', 'actor' => $actor->toArray()],
+                            200
+                        );
+        
+                }
+                else
+                {
+                    return $this -> render(
+                        'actorlist.html.twig',
+                        array(
+                            'actor' => $actor,
+                            'locale' => $request -> getLocale()
+                        )
+                    );
+                }
 
-                /*$handler = $this -> get('filmapi.command_handler.findActorById');
-                $actor = $handler -> handle($id);
-                return new JsonResponse(
-                    ['success' => 'Actor Found', 'actor' => $actor->toArray()],
-                    200
-                );*/
                 
 
             }
@@ -173,6 +181,11 @@
                 return new JsonResponse(['error' => 'An application error has occurred'], 500);
             }
 
+        }
+
+        public function findActorByIdWebAction(Request $request)
+        {
+            return $this -> findActorByIdAction($request, true);
         }
 
         private function end()
