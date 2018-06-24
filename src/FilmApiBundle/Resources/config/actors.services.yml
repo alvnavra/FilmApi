@@ -64,4 +64,6 @@ services:
       class     : FilmApiBundle\EventListener\ActorListener
       arguments : ['@cache.app']
       tags      : 
-        - {name : kernel.event_listener, event: actor.find_by_id}                       
+        - {name : kernel.event_listener, event: actor.find_by_id} 
+        
+ 
