@@ -10,14 +10,14 @@
 
     
 
-    class CreateConsoleActorCommand extends ContainerAwareCommand
+    class DeleteConsoleActorCommand extends ContainerAwareCommand
     {
 
         protected function configure()
         {
-            $this -> setName('app:create-actor')
-                  -> setDescription('Create one actor')
-                  -> setHelp('This command allows you to create an actor')
+            $this -> setName('app:delete-actor')
+                  -> setDescription('Delete one existing actor')
+                  -> setHelp('This command allows you to delete an actor')
                   ->addArgument('actorname', InputArgument::REQUIRED, 'The name of the actor');
 
         }
@@ -25,7 +25,7 @@
         protected function execute(InputInterface $input, OutputInterface $output)
         {
             $output -> writeln([
-                'Create Actor',
+                'Delete Actor',
                 '============='
             ]);
 
@@ -33,7 +33,7 @@
             $output->writeln('Actor Name: '.$name);
 
             $command = new CreateActorCommand($name);
-            $handler = $this->getContainer()->get('filmapi.command_handler.createActor');
+            $handler = $this->getContainer()->get('filmapi.command_handler.deleteActor');
             $actor = $handler -> handle($command);
             $this -> end();
 

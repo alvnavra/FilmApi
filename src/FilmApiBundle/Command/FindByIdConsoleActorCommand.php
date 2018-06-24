@@ -4,38 +4,35 @@
     use Symfony\Component\Console\Input\InputInterface;
     use Symfony\Component\Console\Output\OutputInterface;
     use FilmApiBundle\Decorators\ActorDecorator;
-    use FilmApi\Application\Command\Actor\CreateActorCommand;
     use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
     use Symfony\Component\Console\Input\InputArgument;
 
     
 
-    class CreateConsoleActorCommand extends ContainerAwareCommand
+    class FindByIdConsoleActorCommand extends ContainerAwareCommand
     {
 
         protected function configure()
         {
-            $this -> setName('app:create-actor')
-                  -> setDescription('Create one actor')
-                  -> setHelp('This command allows you to create an actor')
-                  ->addArgument('actorname', InputArgument::REQUIRED, 'The name of the actor');
+            $this -> setName('app:find-actor-by-id')
+                  -> setDescription('Find one existing by his id')
+                  -> setHelp('This command allows you to find an actor by his id')
+                  ->addArgument('actorid', InputArgument::REQUIRED, 'The id of the actor');
 
         }
 
         protected function execute(InputInterface $input, OutputInterface $output)
         {
             $output -> writeln([
-                'Create Actor',
+                'Find Actor',
                 '============='
             ]);
 
-            $name = $input->getArgument('actorname');
-            $output->writeln('Actor Name: '.$name);
-
-            $command = new CreateActorCommand($name);
-            $handler = $this->getContainer()->get('filmapi.command_handler.createActor');
-            $actor = $handler -> handle($command);
-            $this -> end();
+            $name = $input->getArgument('actorid');
+            $handler = $this->getContainer()->get('filmapi.command_handler.findActorById');
+            $actor = $handler -> handle($name);
+            $output -> writeln('Id: '.$actor->id());
+            $output -> writeln('Name: '.$actor->name());
 
         }
         private function end()
