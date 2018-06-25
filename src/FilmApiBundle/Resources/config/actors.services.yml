@@ -10,7 +10,7 @@ services:
     class: FilmApiBundle\Decorators\ActorDecorator
     decorates: filmapi.repository.actor
     public: false
-    arguments: ['@filmapi.decorator.actor.inner']
+    arguments: ['@filmapi.decorator.actor.inner','@debug.event_dispatcher']
 
   filmapi.command_handler.createActor:
     class     : FilmApi\Application\CommandHandler\Actor\CreateActorHandler
@@ -46,7 +46,8 @@ services:
       class     : FilmApiBundle\EventListener\ActorListener
       arguments : ['@cache.app']
       tags      : 
-        - {name : kernel.event_listener, event: actor.created}       
+        - {name : kernel.event_listener, event: actor.created}               
+
 
   filmapi.listener.actor_removed:
       class     : FilmApiBundle\EventListener\ActorListener

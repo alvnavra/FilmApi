@@ -4,7 +4,7 @@
     use Symfony\Component\Console\Input\InputInterface;
     use Symfony\Component\Console\Output\OutputInterface;
     use FilmApiBundle\Decorators\ActorDecorator;
-    use FilmApi\Application\Command\Actor\CreateActorCommand;
+    use FilmApi\Application\Command\Actor\ActorManager;
     use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
     use Symfony\Component\Console\Input\InputArgument;
 
@@ -32,7 +32,7 @@
             $name = $input->getArgument('actorname');
             $output->writeln('Actor Name: '.$name);
 
-            $command = new CreateActorCommand($name);
+            $command = new ActorManager($name);
             $handler = $this->getContainer()->get('filmapi.command_handler.deleteActor');
             $actor = $handler -> handle($command);
             $this -> end();

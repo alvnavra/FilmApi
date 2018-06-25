@@ -1,7 +1,7 @@
 <?php
     namespace FilmApi\Application\CommandHandler\Actor;
 
-    use FilmApi\Application\Command\Actor\CreateActorCommand;
+    use FilmApi\Application\Command\Actor\ActorManager;
     use FilmApi\Domain\Actor;
     use FilmApi\Domain\Repository\ActorRepository;
 
@@ -14,7 +14,7 @@
             $this -> actorRepository = $actorRepository;
         }
 
-        public function handle(CreateActorCommand $command):Actor
+        public function handle(ActorManager $command):Actor
         {
             $actor = Actor::create($command -> name());
             $this -> actorRepository -> save($actor);

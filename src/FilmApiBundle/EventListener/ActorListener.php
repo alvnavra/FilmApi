@@ -46,7 +46,6 @@
             $item = $this -> cache -> getItem('Actor_'.$actor->name());
             if ($item->isHit())
             {
-                echo("Lo hemos encontrado. Parece que esto funciona");
                 $this -> cache -> clear($actor -> name());
             }
 

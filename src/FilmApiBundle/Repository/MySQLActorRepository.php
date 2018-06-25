@@ -22,6 +22,7 @@
             try
             {
                 $this -> em -> persist($actor);
+                $this -> em -> flush();
             }            
             catch(Exception $e)
             {
@@ -29,17 +30,11 @@
             }
         }
 
-        public function update(Actor $actor):void
-        {
-            $this -> save($actor);
-        }
-
         public function delete(Actor $actor):void
         {
             
                 $actorBorrar = $this -> findActorByNameOrError($actor->name());
                 $this -> em -> remove($actorBorrar);
-                $this -> em -> flush();            
 
         }
 

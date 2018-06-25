@@ -1,7 +1,7 @@
 <?php
     namespace FilmApi\Application\Command\Actor;
 
-    class CreateActorCommand
+    class ActorManager
     {
         private $name;
 

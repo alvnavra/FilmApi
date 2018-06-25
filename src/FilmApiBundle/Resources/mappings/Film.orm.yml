@@ -9,6 +9,7 @@ FilmApi\Domain\Film:
     title:
       type: string
       legth: 100
+      unique: true
     description:
       type: text
   manyToOne:
