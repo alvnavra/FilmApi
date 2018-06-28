@@ -1,3 +1,26 @@
+create_film:
+  path: /film
+  defaults: { _controller: FilmApiBundle:Film:createFilm}
+  methods: [POST]
+
+delete_film:
+  path: /film
+  defaults: { _controller: FilmApiBundle:Film:deleteFilm}
+  methods: [DELETE]
+
+update_film:
+  path: /film
+  defaults: { _controller: FilmApiBundle:Film:updateFilm}
+  methods: [PUT]
+
+find_by_title:
+  path: /film
+  defaults: { _controller: FilmApiBundle:Film:findFilmByTitle}
+  methods: [GET]
+  requirements:
+    name: \w+
+
+
 create_actor:
   path: /actor
   defaults: { _controller: FilmApiBundle:Actor:createActor }

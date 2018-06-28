@@ -9,6 +9,6 @@ FilmApi\Domain\Actor:
     name:
       type: string
       legth: 100
-      unique: true
+      unique: true      
   constraints:
         - Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity: name

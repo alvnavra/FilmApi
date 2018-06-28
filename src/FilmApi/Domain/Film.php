@@ -3,6 +3,8 @@
 
     use FilmApi\Domain\Exception\Film\InvalidFilmDataException;
     use FilmApi\Domain\Actor;
+    use Doctrine\Common\Collections\Collection;
+    use Doctrine\Common\Collections\ArrayCollection;
 
     class Film
     {
@@ -21,16 +23,16 @@
             $this -> actor = $actor;
         }
 
-        public static function create(string $title, string $description, int $idActor):self
+        public static function create(string $title, string $description, Actor $actor):self
         {
-            return new self($title, $description, $idActor);
+            return new self($title, $description, $actor);
         }
 
         private function validateTitle(string $title):void
         {
             if ($title === '') throw InvalidFilmDataException::empty($title);
             $titleLength = mb_strlen($title);
-            if ($titleLength > self::MAX_TITLE_LENGHT) 
+            if ($titleLength > self::MAX_TITLE_LENGTH) 
                 throw InvalidFilmDataException::ofLength($title,
                                                          $titleLength,
                                                          self::MAX_TITLE_LENGTH);
@@ -57,9 +59,19 @@
             return $this->description;
         }
 
+        public function addActor(Actor $actor):void
+        {
+            $this -> actor = $actor;
+        }
+
         public function actor():Actor
         {
             return $this->actor;
+        }
+
+        public function addDescription(string $description):void
+        {
+            $this -> description = $description;
         }
 
         public function toArray():array
@@ -68,7 +80,6 @@
                 'id'           => $this ->id(),
                 'title'        => $this ->title(),
                 'description'  => $this ->description(),
-                'actor'        => $this ->actor()
             ];
         }
     }

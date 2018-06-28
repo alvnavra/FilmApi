@@ -5,7 +5,7 @@
     use FilmApi\Domain\Film;
     use FilmApi\Domain\Repository\FilmRepository;
 
-    class DeletFilmHandler
+    class DeleteFilmHandler
     {
         private $filmRepository;
 
@@ -14,10 +14,8 @@
             $this -> filmRepository = $filmRepository;
         }
 
-        public function handle(CreateFilmCommand $command):Film
+        public function handle(string $title):void
         {
-            $film = Film::create($command -> title(),$command -> description());
-            $this -> filmRepository -> delete($film);
-            return $film;
+            $film = $this -> filmRepository -> delete($title);
         }
     }

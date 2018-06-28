@@ -1,8 +1,9 @@
 <?php
     namespace FilmApi\Application\CommandHandler\Film;
-
-    use FilmApi\Application\Command\Film\CreateFilmCommand;
+    use FilmApi\Application\CommandHandler\Actor\FindActorByName;
+    use FilmApi\Application\Command\Film\FilmManager;
     use FilmApi\Domain\Film;
+    use FilmApi\Domain\Actor;
     use FilmApi\Domain\Repository\FilmRepository;
 
     class CreateFilmHandler
@@ -14,9 +15,9 @@
             $this -> filmRepository = $filmRepository;
         }
 
-        public function handle(CreateFilmCommand $command):Film
+        public function handle(FilmManager $command):Film
         {
-            $film = Film::create($command -> title(),$command -> description());
+            $film = Film::create($command -> title(),$command -> description(), $command -> actor());
             $this -> filmRepository -> save($film);
             return $film;
         }

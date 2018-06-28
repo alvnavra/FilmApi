@@ -4,7 +4,6 @@ services:
     public: false
     arguments:
       - "@doctrine.orm.default_entity_manager"
-      - "@cache.app"
 
   filmapi.decorator.actor:
     class: FilmApiBundle\Decorators\ActorDecorator

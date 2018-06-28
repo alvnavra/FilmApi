@@ -1,5 +1,5 @@
 <?php
-    namespace FilmApi\Application\CommandHandler;
+    namespace FilmApi\Application\CommandHandler\Film;
     use FilmApi\Domain\Repository\FilmRepository;
 
     class FindByTitleHandler
@@ -11,9 +11,9 @@
             $this -> filmRepository = $filmRepository;
         }
 
-        public function execute(string $title)
+        public function handle(string $title)
         {
-            $this -> filmRepository -> findFilmByTitleOrError($title);
+            return $this -> filmRepository -> findFilmByTitleOrError($title);
         }
 
     }

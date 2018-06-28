@@ -11,10 +11,11 @@ FilmApi\Domain\Film:
       legth: 100
       unique: true
     description:
-      type: text
+      type: text  
   manyToOne:
     actor:
       targetEntity: FilmApi\Domain\Actor
       inversedBy: films
       joinColumn:
-        nullable: false
+        name: actor_id
+        referencedColumnName: id
