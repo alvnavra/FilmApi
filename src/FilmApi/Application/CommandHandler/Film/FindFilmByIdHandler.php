@@ -1,8 +1,7 @@
 <?php
-    namespace FilmApi\Application\CommandHandler;
+    namespace FilmApi\Application\CommandHandler\Film;
     use FilmApi\Domain\Repository\FilmRepository;
-
-    class FindFimByIdHandler
+      class FindFilmByIdHandler
     {
         private $filmRepository;
 
@@ -11,7 +10,7 @@
             $this -> filmRepository = $filmRepository;
         }
 
-        public function execute(int $id)
+        public function handle(int $id)
         {
             return $this -> filmRepository -> findFilmByIdOrError($id);
         }

@@ -2,7 +2,7 @@
     namespace FilmApiBundle\EventListener;
     use FilmApiBundle\Event\FilmEvent;
     use FilmApiBundle\Event\FilmTitleEvent;
-    /*use FilmApiBundle\Event\ActorIdEvent;*/
+    use FilmApiBundle\Event\FilmIdEvent;
     use Symfony\Component\EventDispatcher\Event;
     use Psr\Cache\CacheItemPoolInterface;
 
@@ -49,14 +49,14 @@
             return $event;
         }
 
-       /* public function onActorFindById(ActorIdEvent $event):ActorIdEvent
+        public function onFilmFindById(FilmIdEvent $event):FilmIdEvent
         {
             $id = $event -> id();
-            $item = $this -> cache -> getItem('Actor_'.(string)$id);
+            $item = $this -> cache -> getItem('Film_'.(string)$id);
             if ($item -> isHit())
             {
                 $event -> addActor($item -> get());
             }
             return $event;
-        }*/
+        }
     }

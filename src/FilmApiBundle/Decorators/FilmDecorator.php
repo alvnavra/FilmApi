@@ -6,6 +6,7 @@
     use FilmApi\Domain\Actor;
     use FilmApiBundle\Event\FilmEvent;
     use FilmApiBundle\Event\FilmTitleEvent;
+    use FilmApiBundle\Event\FilmIdEvent;
     use Symfony\Component\EventDispatcher\EventDispatcher;
     use Symfony\Component\HttpKernel\Debug\TraceableEventDispatcher;
 
@@ -58,17 +59,29 @@
                 $FilmEvent = new FilmEvent($film);
                 $dispatch = $this->dispatcher -> dispatch('film.created', $FilmEvent);
             }
-            var_dump($film);
             return $film;
-
         }
 
         public function findFilmByIdOrError(int $id):Film
-        {return null;}
+        {
+            $filmEventId = new FilmIdEvent($id);
+            $dispatch = $this->dispatcher->dispatch('film.find_by_id',$filmEventId);
+            $film = $dispatch->film();
+            if ($film == NULL)
+            {
+                $film = $this -> mySQL -> findFilmByIdOrError($id);
+                $FilmEvent = new FilmEvent($film);
+                $dispatch = $this->dispatcher -> dispatch('film.created', $FilmEvent);
+            }
+            return $film;
+        }
         
 
         public function findAllFilms():array
-        {return [];}
+        {
+            return $this -> mySQL -> findAllFilms();
+        }
+
 
 
     }

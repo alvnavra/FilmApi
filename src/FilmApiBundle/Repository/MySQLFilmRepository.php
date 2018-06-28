@@ -67,8 +67,15 @@
 
         public function findFilmByIdOrError(int $id):Film 
         { 
-            return null;
+            $repository = $this -> em -> getRepository(Film::class);
+            $film = $repository -> findOneBy(['id' => $id]);
+            if ($film == null)
+            {
+                throw UnknownFilmException::withFilmId($id);
+            }
+            return $film;
         }
+        
         public function findFilmByTitleOrError(string $title):Film
         {
             $repository = $this -> em -> getRepository(Film::class);
@@ -79,8 +86,25 @@
             }
             return $film;
         }
-        public function findAllFilms():array {return [];}
-        public function findFilmsByActor(Actor $actor):array {return [];}
+        public function findAllFilms():array
+        {
+            try
+            {
+                $repository = $this -> em -> getRepository(Film::class);
+                $films = $repository -> findAll();
+                $arrayOfFilms = [];
+                foreach ($films as $film)
+                {
+                    $arrayOfFilms[$film->title()] = $film->toArray();
+                }
+                return $arrayOfFilms;
+            }
+            catch (Exception $e)
+            {
+                throw RepositoryException::withError($e);
+            }
 
+
+        }
 
     }

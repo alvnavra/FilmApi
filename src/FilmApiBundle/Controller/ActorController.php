@@ -99,7 +99,7 @@
                 $id = (int)$jsonActorId;
                 $handler = $this -> get('filmapi.command_handler.findActorById');
                 $actor = $handler -> handle($id);
-    
+                $this -> end(); 
                 if ($web == false)
                 {
                     return new JsonResponse(

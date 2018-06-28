@@ -60,11 +60,10 @@
             $actor = $dispatch->actor();
             if ( $actor == NULL)
             {
+                $actor = $this -> mySQL -> findActorByIdOrError($id);
                 $actorEvent = new ActorEvent($actor);
-                $dispatch = $this -> get('event_dispatcher') -> dispatch('actor.created', $actorEvent);    
+                $dispatch = $this -> dispatcher ->dispatch('actor.created', $actorEvent);    
             }
-
-            $actor = $this -> mySQL -> findActorByIdOrError($id);
             return $actor;
         }
 

@@ -111,18 +111,84 @@
 
         public function findFilmByTitleAction(Request $request)
         {
-            $jsonFilmTitle = $request -> get('title');                
-            $title = filter_var($jsonFilmTitle,FILTER_SANITIZE_STRING);     
-            $handler = $this -> get('filmapi.command_handler.findFilmByTitle');
-            $film = $handler -> handle($title);
-            var_dump($film);
-            $this -> end();                   
-            return new JsonResponse(
-            ['success' => 'Film Found', 'film' => $film ->toArray()],
-                200
-            );
+            try
+            {
+                $jsonFilmTitle = $request -> get('title');                
+                $title = filter_var($jsonFilmTitle,FILTER_SANITIZE_STRING);     
+                $handler = $this -> get('filmapi.command_handler.findFilmByTitle');
+                $film = $handler -> handle($title);
+                $this -> end();                   
+                return new JsonResponse(
+                ['success' => 'Film Found', 'film' => $film ->toArray()],
+                    200
+                );
+            }
+            catch (InvalidArgumentException $e) {
+                return new JsonResponse(['error' => $e->getMessage()], 400);
+            } catch (RepositoryException $e) {
+                return new JsonResponse(['error' => 'An application error has occurred'], 500);
+            }
+        }
+        
+        public function findFilmByIdAction(Request $request, bool $web=false)
+        {
+            try
+            {
+                $jsonFilmId = $request -> get('id');                
+                $id = (int)$jsonFilmId;
+                $handler = $this -> get('filmapi.command_handler.findFilmById');
+                $film = $handler -> handle($id);
+                $this -> end();  
+                if ($web == false)
+                {
+                    return new JsonResponse(
+                    ['success' => 'Film Found', 'film' => $film ->toArray()],
+                        200
+                    );
+                }
+                else
+                {
+                    return $this -> render(
+                        'filmlist.html.twig',
+                        array(
+                            'film' => $film,
+                            'locale' => $request -> getLocale()
+                        )
+                    );
 
+                }
+            }
+            catch (InvalidArgumentException $e) {
+                return new JsonResponse(['error' => $e->getMessage()], 400);
+            } catch (RepositoryException $e) {
+                return new JsonResponse(['error' => 'An application error has occurred'], 500);
+            }
 
+        }
+
+        public function findAllFilmsAction(Request $request)
+        {
+            try
+            {
+                $handler = $this -> get('filmapi.command_handler.findAllFilms');
+                $films = $handler -> handle();
+                $this -> end();
+                return new JsonResponse(
+                    ['success' => 'All Films on the DB', 'films' => $films],
+                    200
+                );                
+
+            }
+            catch (InvalidArgumentException $e) {
+                return new JsonResponse(['error' => $e->getMessage()], 400);
+            } catch (RepositoryException $e) {
+                return new JsonResponse(['error' => 'An application error has occurred'], 500);
+            }
+        }
+
+        public function findFilmByIdWebAction(Request $request)
+        {
+            return $this -> findFilmByIdAction($request, true);
         }
 
         private function end()

@@ -20,6 +20,24 @@ find_by_title:
   requirements:
     name: \w+
 
+find_by_id:
+  path: /film_id
+  defaults: { _controller: FilmApiBundle:Film:findFilmById}
+  methods: [GET]
+  requirements:
+    name: \d+
+
+find_all_films:
+  path: /films
+  defaults: { _controller: FilmApiBundle:Film:findAllFilms}
+  methods: [GET]
+  requirements:
+    name: \d+
+
+list_film_by_id_web:
+  path    : /web/{_locale}/film
+  defaults: {_controller: FilmApiBundle:Film:findFilmByIdWeb}
+
 
 create_actor:
   path: /actor

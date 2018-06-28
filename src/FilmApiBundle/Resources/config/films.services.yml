@@ -35,6 +35,17 @@ services:
       arguments :
         - "@filmapi.decorator.film"
 
+  filmapi.command_handler.findFilmById:
+      class     : FilmApi\Application\CommandHandler\Film\FindFilmByIdHandler
+      public    : true
+      arguments :
+        - "@filmapi.decorator.film"        
+
+  filmapi.command_handler.findAllFilms:
+      class     : FilmApi\Application\CommandHandler\Film\FindAllFilmsHandler
+      public    : true
+      arguments :
+        - "@filmapi.decorator.film"        
 
   filmapi.listener.film_created:
     class     : FilmApiBundle\EventListener\FilmListener
@@ -53,3 +64,9 @@ services:
     arguments : ['@cache.app']
     tags      : 
         - {name : kernel.event_listener, event: film.find_by_title}               
+
+  filmapi.listener.find_film_by_id:
+    class     : FilmApiBundle\EventListener\FilmListener
+    arguments : ['@cache.app']
+    tags      : 
+        - {name : kernel.event_listener, event: film.find_by_id}                       
