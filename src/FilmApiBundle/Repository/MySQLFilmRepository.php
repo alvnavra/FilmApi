@@ -47,9 +47,7 @@
             {
                 $actorName = $film->actor()->name();                
                 $actorRepository = $this -> em -> getRepository(Actor::class);
-                echo $actorName;
                 $entityActor = $actorRepository -> findOneBy(['name'=>$film->actor()->name()]);
-                echo "Hemos encontrado el actor".$entityActor->name();
                 $entityFilm = $this -> findFilmByTitleOrError($film -> title());
                 $oldFilm = $entityFilm; //Este lo devolveremos para elminarlo de la caché
                 $entityFilm -> addDescription($film -> description());
