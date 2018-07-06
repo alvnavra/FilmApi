@@ -2,6 +2,8 @@
     namespace FilmApi\Domain;
 
     use FilmApi\Domain\Exception\Actor\InvalidActorNameException;
+    use FilmApi\Application\CommandHandler\ActorWasCreated;
+    use FilmApi\Application\Domain\Model\TriggerEvenstTrait;
 
     class Actor
     {

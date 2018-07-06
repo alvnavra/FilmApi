@@ -1,7 +1,7 @@
 <?php
     namespace FilmApiBundle\EventListener;
-    use FilmApiBundle\Event\ActorEvent;
-    use FilmApiBundle\Event\ActorNameEvent;
+    use FilmApi\Domain\Events\FindingActorOnCacheByName;
+    use FilmApi\Domain\Events\FindingActorOnCacheById;
     use FilmApiBundle\Event\ActorIdEvent;
     use Symfony\Component\EventDispatcher\Event;
     use Psr\Cache\CacheItemPoolInterface;
@@ -15,7 +15,7 @@
             $this -> cache = $cacheItemPoolInterface;
         }
 
-        public function onActorCreated(Event $event):void
+        public function onActorWasCreated(Event $event):void
         {
             $actor = $event -> actor();
             $item = $this -> cache -> getItem('Actor_'.(string)$actor->id());
@@ -40,7 +40,7 @@
             }
         }
 
-        public function onActorRemoved(Event $event):void
+        public function onActorWasDeleted(Event $event):void
         {
             $actor = $event -> actor();
             $item = $this -> cache -> getItem('Actor_'.$actor->name());
@@ -51,7 +51,7 @@
 
         }
 
-        public function onActorFindByName(ActorNameEvent $event):ActorNameEvent
+        public function onActorFindByName(FindingActorOnCacheByName $event):FindingActorOnCacheByName
         {
             $name = $event -> name();
             $item = $this -> cache -> getItem('Actor_'.$name);
@@ -62,7 +62,7 @@
             return $event;
         }
 
-        public function onActorFindById(ActorIdEvent $event):ActorIdEvent
+        public function onActorFindById(FindingActorOnCacheById $event):FindingActorOnCacheById
         {
             $id = $event -> id();
             $item = $this -> cache -> getItem('Actor_'.(string)$id);

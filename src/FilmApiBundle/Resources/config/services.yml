@@ -1,4 +1,144 @@
 parameters:
-imports:
-  - {resource: './films.services.yml'}
-  - {resource: './actors.services.yml'}
+services:
+  filmapi.repository.actor:
+    class: FilmApiBundle\Repository\MySQLActorRepository
+    public: false
+    arguments:
+      - "@doctrine.orm.default_entity_manager"
+
+  filmapi.decorator.actor:
+    class: FilmApiBundle\Decorators\ActorDecorator
+    decorates: filmapi.repository.actor
+    public: false
+    arguments: ['@filmapi.decorator.actor.inner']
+
+  filmapi.command_handler.createActor:
+    class     : FilmApi\Application\CommandHandler\Actor\CreateActorHandler
+    public    : true
+    arguments :
+      - "@filmapi.decorator.actor"
+      - "@debug.event_dispatcher"
+
+  filmapi.command_handler.findAllActors:
+    class     : FilmApi\Application\CommandHandler\Actor\FindAllActorsHandler
+    public    : true
+    arguments :
+      - "@filmapi.decorator.actor"
+
+  filmapi.command_handler.findActorByName:
+      class     : FilmApi\Application\CommandHandler\Actor\FindActorByNameHandler
+      public    : true
+      arguments :
+        - "@filmapi.decorator.actor"
+        - "@debug.event_dispatcher"
+
+  filmapi.command_handler.findActorById:
+      class     : FilmApi\Application\CommandHandler\Actor\FindActorByIdHandler
+      public    : true
+      arguments :
+        - "@filmapi.decorator.actor"        
+        - "@debug.event_dispatcher"
+
+  filmapi.command_handler.deleteActor:
+      class     : FilmApi\Application\CommandHandler\Actor\DeleteActorHandler
+      public    : true
+      arguments :
+        - "@filmapi.decorator.actor"     
+        - "@debug.event_dispatcher"
+
+  filmapi.listener.actor_was_created:
+      class     : FilmApiBundle\EventListener\ActorListener
+      arguments : ['@cache.app']
+      tags      : 
+        - {name : kernel.event_listener, event: actor.was.created}               
+
+
+  filmapi.listener.actor_removed:
+      class     : FilmApiBundle\EventListener\ActorListener
+      arguments : ['@cache.app']
+      tags      : 
+        - {name : kernel.event_listener, event: actor.was.deleted}               
+
+  filmapi.listener.find_actor_by_name:
+      class     : FilmApiBundle\EventListener\ActorListener
+      arguments : ['@cache.app']
+      tags      : 
+        - {name : kernel.event_listener, event: actor.find_by_name}                       
+
+  filmapi.listener.find_actor_by_id:
+      class     : FilmApiBundle\EventListener\ActorListener
+      arguments : ['@cache.app']
+      tags      : 
+        - {name : kernel.event_listener, event: actor.find_by_id} 
+        
+  filmapi.repository.film:
+    class: FilmApiBundle\Repository\MySQLFilmRepository
+    public: false
+    arguments:
+      - "@doctrine.orm.default_entity_manager"
+
+  filmapi.decorator.film:
+    class: FilmApiBundle\Decorators\FilmDecorator
+    decorates: filmapi.repository.film
+    public: false
+    arguments: ['@filmapi.decorator.film.inner','@debug.event_dispatcher']
+
+  filmapi.command_handler.createFilm:
+    class     : FilmApi\Application\CommandHandler\Film\CreateFilmHandler
+    public    : true
+    arguments :
+      - "@filmapi.decorator.film"
+
+  filmapi.command_handler.deleteFilm:
+    class     : FilmApi\Application\CommandHandler\Film\DeleteFilmHandler
+    public    : true
+    arguments :
+      - "@filmapi.decorator.film"
+
+  filmapi.command_handler.updateFilm:
+    class     : FilmApi\Application\CommandHandler\Film\UpdateFilmHandler
+    public    : true
+    arguments :
+      - "@filmapi.decorator.film"
+
+  filmapi.command_handler.findFilmByTitle:
+      class     : FilmApi\Application\CommandHandler\Film\FindByTitleHandler
+      public    : true
+      arguments :
+        - "@filmapi.decorator.film"
+
+  filmapi.command_handler.findFilmById:
+      class     : FilmApi\Application\CommandHandler\Film\FindFilmByIdHandler
+      public    : true
+      arguments :
+        - "@filmapi.decorator.film"        
+
+  filmapi.command_handler.findAllFilms:
+      class     : FilmApi\Application\CommandHandler\Film\FindAllFilmsHandler
+      public    : true
+      arguments :
+        - "@filmapi.decorator.film"        
+
+  filmapi.listener.film_created:
+    class     : FilmApiBundle\EventListener\FilmListener
+    arguments : ['@cache.app']
+    tags      : 
+        - {name : kernel.event_listener, event: film.created}               
+
+  filmapi.listener.film_deleted:
+    class     : FilmApiBundle\EventListener\FilmListener
+    arguments : ['@cache.app']
+    tags      : 
+        - {name : kernel.event_listener, event: film.deleted}               
+
+  filmapi.listener.find_film_by_title:
+    class     : FilmApiBundle\EventListener\FilmListener
+    arguments : ['@cache.app']
+    tags      : 
+        - {name : kernel.event_listener, event: film.find_by_title}               
+
+  filmapi.listener.find_film_by_id:
+    class     : FilmApiBundle\EventListener\FilmListener
+    arguments : ['@cache.app']
+    tags      : 
+        - {name : kernel.event_listener, event: film.find_by_id}                       

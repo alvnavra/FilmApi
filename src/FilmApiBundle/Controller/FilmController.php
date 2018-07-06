@@ -15,14 +15,10 @@
     {
         public function createFilmAction(Request $request)
         {
-            $jsonActorName = $request -> get('name');
-            $name = filter_var($jsonActorName,FILTER_SANITIZE_STRING);
-
-            $jsonFilmTitle = $request -> get('title');
-            $title = filter_var($jsonFilmTitle,FILTER_SANITIZE_STRING);
-
-            $jsonFilmDescription = $request -> get('description');
-            $description = filter_var($jsonFilmDescription,FILTER_SANITIZE_STRING);
+            $jsonRequestBody = json_decode($request->getContent(),true);
+            $name = filter_var($jsonRequestBody['name'] ?? '',FILTER_SANITIZE_STRING);
+            $title = filter_var($jsonRequestBody['title'] ?? '',FILTER_SANITIZE_STRING);
+            $description = filter_var($jsonRequestBody['description'] ?? '',FILTER_SANITIZE_STRING);
 
             $actorHandler = $this -> get('filmapi.command_handler.findActorByName');
             $actor = $actorHandler -> handle($name);

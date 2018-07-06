@@ -2,6 +2,7 @@
     namespace FilmApiBundle\Controller;
 
     use FilmApi\Application\Command\Actor\ActorManager;
+    use FilmApi\Application\Command\Actor\IdActorManager;
     use FilmApi\Domain\Exception\BadOperationException;
     use FilmApi\Domain\Exception\InvalidArgumentException;
     use FilmApi\Domain\Exception\RepositoryException;
@@ -15,8 +16,8 @@
     {
         public function createActorAction(Request $request)
         {
-            $jsonActorName = $request -> get('name');
-            $name = filter_var($jsonActorName,FILTER_SANITIZE_STRING);
+            $jsonRequestBody = json_decode($request->getContent(),true);
+            $name = filter_var($jsonRequestBody['name'] ?? '',FILTER_SANITIZE_STRING);
 
             $command = new ActorManager($name);
             $handler = $this -> get('filmapi.command_handler.createActor');
@@ -41,8 +42,8 @@
         public function deleteActorAction(Request $request)
         {
 
-            $jsonActorName = $request -> get('name');
-            $name = filter_var($jsonActorName,FILTER_SANITIZE_STRING);
+            $jsonRequestBody = json_decode($request->getContent(),true);
+            $name = filter_var($jsonRequestBody['name'] ?? '',FILTER_SANITIZE_STRING);
 
             $command = new ActorManager($name);
             $handler = $this -> get('filmapi.command_handler.deleteActor');
@@ -71,8 +72,9 @@
             {
                 $jsonActorName = $request -> query -> get('name');
                 $name = filter_var($jsonActorName,FILTER_SANITIZE_STRING);
+                $command = new ActorManager($name);
                 $handler = $this -> get('filmapi.command_handler.findActorByName');
-                $actor = $handler -> handle($name);
+                $actor = $handler -> handle($command);
                 $this -> end();
                    
                 return new JsonResponse(
@@ -97,8 +99,9 @@
             {
                 $jsonActorId = $request -> query -> get('id');                
                 $id = (int)$jsonActorId;
+                $command = new IdActorManager($id);
                 $handler = $this -> get('filmapi.command_handler.findActorById');
-                $actor = $handler -> handle($id);
+                $actor = $handler -> handle($command);
                 $this -> end(); 
                 if ($web == false)
                 {
@@ -140,7 +143,7 @@
                 return new JsonResponse(
                     ['success' => 'All Actors on the DB', 'actors' => $actors],
                     200
-                );                
+                );
 
             }
             catch (InvalidArgumentException $e) {

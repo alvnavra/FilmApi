@@ -80,7 +80,7 @@
                 'id'           => $this ->id(),
                 'title'        => $this ->title(),
                 'description'  => $this ->description(),
-                'actor'        => $this -> actor()
+                'actor'        => $this -> actor() -> name()
             ];
         }
     }
