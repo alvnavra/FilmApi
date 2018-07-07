@@ -1,23 +1,23 @@
 <?php 
-    namespace FilmApiBundle\Event;
+    namespace FilmApi\Domain\Events;
     use Symfony\Component\EventDispatcher\Event;
     use FilmApi\Domain\Film;
 
-    class FilmTitleEvent extends Event
+    class FindingFilmOnCacheById extends Event
     {
-        /** @var name */
-        private $title;
+        /** @var Id */
+        private $id;
         private $film;
 
 
-        public function __construct(string $title)
+        public function __construct(int $id)
         {
-            $this -> title = $title;
+            $this -> id = $id;
         }
 
-        public function title()
+        public function id()
         {
-            return $this -> title;
+            return $this -> id;
         }
 
         public function addFilm(Film $film)

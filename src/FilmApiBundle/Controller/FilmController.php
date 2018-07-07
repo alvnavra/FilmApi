@@ -2,6 +2,9 @@
     namespace FilmApiBundle\Controller;
 
     use FilmApi\Application\Command\Film\FilmManager;
+    use FilmApi\Application\Command\Film\FilmTitleManager;
+    use FilmApi\Application\Command\Film\FilmIdManager;
+    use FilmApi\Application\Command\Actor\ActorManager;
     use FilmApi\Domain\Exception\BadOperationException;
     use FilmApi\Domain\Exception\InvalidArgumentException;
     use FilmApi\Domain\Exception\RepositoryException;
@@ -20,8 +23,9 @@
             $title = filter_var($jsonRequestBody['title'] ?? '',FILTER_SANITIZE_STRING);
             $description = filter_var($jsonRequestBody['description'] ?? '',FILTER_SANITIZE_STRING);
 
+            $command = new ActorManager($name);
             $actorHandler = $this -> get('filmapi.command_handler.findActorByName');
-            $actor = $actorHandler -> handle($name);
+            $actor = $actorHandler -> handle($command);
 
             $command = new FilmManager($title, $description, $actor);
             $handler = $this -> get('filmapi.command_handler.createFilm');
@@ -47,18 +51,15 @@
 
         public function updateFilmAction(Request $request)
         {
-            $jsonActorName = $request -> get('name');
-            $name = filter_var($jsonActorName,FILTER_SANITIZE_STRING);
+            $jsonRequestBody = json_decode($request->getContent(),true);
+            $name = filter_var($jsonRequestBody['name'] ?? '',FILTER_SANITIZE_STRING);
 
-            $jsonFilmTitle = $request -> get('title');
-            $title = filter_var($jsonFilmTitle,FILTER_SANITIZE_STRING);
-
-            $jsonFilmDescription = $request -> get('description');
-            $description = filter_var($jsonFilmDescription,FILTER_SANITIZE_STRING);
-
+            $command = new ActorManager($name);
             $actorHandler = $this -> get('filmapi.command_handler.findActorByName');
-            $actor = $actorHandler -> handle($name);
+            $actor = $actorHandler -> handle($command);
 
+            $title = filter_var($jsonRequestBody['title'] ?? '',FILTER_SANITIZE_STRING);
+            $description = filter_var($jsonRequestBody['description'] ?? '',FILTER_SANITIZE_STRING);
             $command = new FilmManager($title, $description, $actor);
             $handler = $this -> get('filmapi.command_handler.updateFilm');
 
@@ -67,7 +68,7 @@
                 $film = $handler -> handle($command, $this -> get('event_dispatcher'));
                 $this -> end();
                 return new JsonResponse(
-                ['success' => "Film correctly [$title] updated"],
+                ['success' => "Film [$title] correctly updated"],
                     200
                 );                
 
@@ -85,13 +86,14 @@
 
             try
             {
-                $jsonFilmTitle = $request -> get('title');                
-                $title = filter_var($jsonFilmTitle,FILTER_SANITIZE_STRING);            
+                $jsonRequestBody = json_decode($request->getContent(),true);
+                $title = filter_var($jsonRequestBody['title'] ?? '',FILTER_SANITIZE_STRING);
+                $command = new FilmTitleManager($title);
                 $handler = $this -> get('filmapi.command_handler.deleteFilm');
-                $film = $handler -> handle($title);
+                $film = $handler -> handle($command);
                 $this -> end();
                 return new JsonResponse(
-                ['success' => "Film correctly [$title] deleted"],
+                ['success' => "Film [$title] correctly deleted"],
                     200
                 );                
 
@@ -110,9 +112,10 @@
             try
             {
                 $jsonFilmTitle = $request -> get('title');                
-                $title = filter_var($jsonFilmTitle,FILTER_SANITIZE_STRING);     
+                $title = filter_var($jsonFilmTitle,FILTER_SANITIZE_STRING);
+                $command = new FilmTitleManager($title);     
                 $handler = $this -> get('filmapi.command_handler.findFilmByTitle');
-                $film = $handler -> handle($title);
+                $film = $handler -> handle($command);
                 $this -> end();                   
                 return new JsonResponse(
                 ['success' => 'Film Found', 'film' => $film ->toArray()],
@@ -132,8 +135,9 @@
             {
                 $jsonFilmId = $request -> get('id');                
                 $id = (int)$jsonFilmId;
+                $command = new FilmIdManager($id);     
                 $handler = $this -> get('filmapi.command_handler.findFilmById');
-                $film = $handler -> handle($id);
+                $film = $handler -> handle($command);
                 $this -> end();  
                 if ($web == false)
                 {

@@ -7,7 +7,6 @@
     class ActorDecorator implements ActorRepository
     {
         private $mySQL;
-        private $dispatcher;
 
         public function __construct(MySQLActorRepository $mysql)
         {
@@ -27,23 +26,13 @@
 
         public function findActorByNameOrError(string $name):Actor
         {   
-            echo "En BD";
             $actor = $this -> mySQL -> findActorByNameOrError($name);
             return $actor;
         }
 
         public function findActorByIdOrError(int $id):Actor
         {
-            /*$actorIdEvent = new ActorIdEvent($id);
-            $dispatch = $this -> dispatcher -> dispatch('actor.find_by_id', $actorIdEvent);
-            $actor = $dispatch->actor();
-            if ( $actor == NULL)
-            {*/
-                echo "En BD";
-                $actor = $this -> mySQL -> findActorByIdOrError($id);
-               /* $actorEvent = new ActorEvent($actor);
-                $dispatch = $this -> dispatcher ->dispatch('actor.created', $actorEvent);    
-            }*/
+            $actor = $this -> mySQL -> findActorByIdOrError($id);
             return $actor;
         }
 

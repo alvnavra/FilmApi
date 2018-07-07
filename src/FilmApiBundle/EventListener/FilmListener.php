@@ -1,7 +1,7 @@
 <?php
     namespace FilmApiBundle\EventListener;
-    use FilmApiBundle\Event\FilmEvent;
-    use FilmApiBundle\Event\FilmTitleEvent;
+    use FilmApi\Domain\Events\FindingFilmOnCacheByTitle;
+    use FilmApi\Domain\Events\FindingFilmOnCacheById;
     use FilmApiBundle\Event\FilmIdEvent;
     use Symfony\Component\EventDispatcher\Event;
     use Psr\Cache\CacheItemPoolInterface;
@@ -15,10 +15,9 @@
             $this -> cache = $cacheItemPoolInterface;
         }
 
-        public function onFilmCreated(Event $event):void
+        public function onFilmWasCreated(Event $event):void
         {
             $film = $event -> film();
-
             $item = $this -> cache -> getItem("Film_".$film->title());
             if (!$item->isHit())
             {
@@ -27,7 +26,7 @@
             }
         }
 
-        public function onFilmDeleted(Event $event):void
+        public function onFilmWasDeleted(Event $event):void
         {
             $film = $event -> film();
             $item = $this -> cache -> getItem('Film_'.$film->title());
@@ -38,10 +37,10 @@
 
         }
 
-        public function onFilmFindByTitle(FilmTitleEvent $event):FilmTitleEvent
+        public function onFilmFindByTitle(FindingFilmOnCacheByTitle $event):FindingFilmOnCacheByTitle
         {
             $title = $event -> title();
-            $item = $this -> cache -> getItem('Film_'.$title);
+            $item = $this -> cache -> getItem('Film_'.$title);            
             if ($item -> isHit())
             {
                 $event -> addFilm($item -> get());
@@ -49,7 +48,7 @@
             return $event;
         }
 
-        public function onFilmFindById(FilmIdEvent $event):FilmIdEvent
+        public function onFilmFindById(FindingFilmOnCacheById $event):FindingFilmOnCacheById
         {
             $id = $event -> id();
             $item = $this -> cache -> getItem('Film_'.(string)$id);
