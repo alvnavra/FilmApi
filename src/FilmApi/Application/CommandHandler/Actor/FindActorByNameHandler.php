@@ -19,7 +19,6 @@
 
         public function handle(ActorManager $command)
         {
-            echo "En el handler";
             $name = $command -> name();
             /* Lo primero que hay que hacer es comprobar si el actor está en caché. Pk, si es así, no hace
                falta llamar al decorador */

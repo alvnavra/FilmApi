@@ -3,7 +3,7 @@
     use Symfony\Component\Console\Command\Command;
     use Symfony\Component\Console\Input\InputInterface;
     use Symfony\Component\Console\Output\OutputInterface;
-    use FilmApiBundle\Decorators\FilmDecorator;
+    use FilmApi\Application\Command\Film\FilmTitleManager;
     use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
     use Symfony\Component\Console\Input\InputArgument;
 
@@ -29,8 +29,9 @@
             ]);
 
             $title = $input->getArgument('filmTitle');
+            $command = new FilmTitleManager($title);
             $handler = $this->getContainer()->get('filmapi.command_handler.findFilmByTitle');
-            $film = $handler -> handle($title);
+            $film = $handler -> handle($command);
             $output -> writeln('Id: '.$film->id());
             $output -> writeln('title: '.$film->title());
             $output -> writeln('description: '.$film->description());

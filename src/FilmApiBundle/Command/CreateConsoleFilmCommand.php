@@ -3,9 +3,8 @@
     use Symfony\Component\Console\Command\Command;
     use Symfony\Component\Console\Input\InputInterface;
     use Symfony\Component\Console\Output\OutputInterface;
-    use FilmApiBundle\Decorators\FilmDecorator;
-    use FilmApiBundle\Decorators\ActorDecorator;
     use FilmApi\Application\Command\Film\FilmManager;
+    use FilmApi\Application\Command\Film\FilmTitleManager;
     use FilmApi\Application\Command\Actor\ActorManager;
     use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
     use Symfony\Component\Console\Input\InputArgument;
@@ -43,9 +42,9 @@
             $output->writeln('Actor: '.$actorName);
 
             #Para insertar el film tenemos que traernos al actor cuyo nommbre hemos introducido.
+            $command = new ActorManager($actorName);
             $handler = $this->getContainer()->get('filmapi.command_handler.findActorByName');
-            $actor = $handler -> handle($actorName);
-
+            $actor = $handler -> handle($command);
 
             $command = new FilmManager($title, $description, $actor);
             $handler = $this->getContainer()->get('filmapi.command_handler.createFilm');

@@ -3,7 +3,7 @@
     use Symfony\Component\Console\Command\Command;
     use Symfony\Component\Console\Input\InputInterface;
     use Symfony\Component\Console\Output\OutputInterface;
-    use FilmApiBundle\Decorators\FilmDecorator;
+    use FilmApi\Application\Command\Film\FilmIdManager;
     use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
     use Symfony\Component\Console\Input\InputArgument;
 
@@ -27,10 +27,11 @@
                 'Find Film',
                 '============='
             ]);
-
+            
             $id = $input->getArgument('filmId');
+            $command = new FilmIdManager((int)$id);
             $handler = $this->getContainer()->get('filmapi.command_handler.findFilmById');
-            $film = $handler -> handle($id);
+            $film = $handler -> handle($command);
             $output -> writeln('Id: '.$film->id());
             $output -> writeln('title: '.$film->title());
             $output -> writeln('description: '.$film->description());

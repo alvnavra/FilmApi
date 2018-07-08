@@ -33,7 +33,7 @@
                 $output -> writeln(['Film Id: '.$film['id'],
                                      '  Title           : '.$film['title'],
                                      '  Description     : '.$film['description'],
-                                     '  Actor           : '.$film['actor']->name(),
+                                     '  Actor           : '.$film['actor'],
                                      '-------------------------']);
     
             }

@@ -3,7 +3,7 @@
     use Symfony\Component\Console\Command\Command;
     use Symfony\Component\Console\Input\InputInterface;
     use Symfony\Component\Console\Output\OutputInterface;
-    use FilmApiBundle\Decorators\ActorDecorator;
+    use FilmApi\Application\Command\Actor\ActorManager;
     use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
     use Symfony\Component\Console\Input\InputArgument;
 
@@ -29,8 +29,9 @@
             ]);
 
             $name = $input->getArgument('actorname');
+            $command = new ActorManager($name);
             $handler = $this->getContainer()->get('filmapi.command_handler.findActorByName');
-            $actor = $handler -> handle($name);
+            $actor = $handler -> handle($command);
             $output -> writeln('Id: '.$actor->id());
             $output -> writeln('Name: '.$actor->name());
 
